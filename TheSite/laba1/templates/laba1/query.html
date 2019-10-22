@@ -1,0 +1,60 @@
+ 
+<!DOCTYPE html>
+<head>
+
+  <!-- Необходимые Мета-теги всегда на первом месте -->  
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+  <title>ЛБ1</title>
+  
+<div>
+<form action="/laba1/query/bd" class="form-inline" method="Post"> 
+    <div>
+    {% csrf_token %}
+    <label >  Your query: </label>
+    <p></p>
+    <div class="form-group mx-sm-3 mb-2">
+    <input  id="qq"  type="text" name="query"  >
+    <p></p>
+    </div >
+    <p></p>
+    <div class="text-center">
+    <button type="submit" class="btn btn-dark" aria-pressed="true">OK </button>
+    </div>
+    </form>
+</div>
+</head>
+
+
+<div>
+    <p href="/laba1"  >{{ Errors }} </p>
+    <p>   query:    {{ Query }}</p>
+    <p></p>
+</div>
+
+<table class="table">
+    <thead class="thead-dark">
+     <tr>
+     {% for i in keys %}
+     <th>{{ i }}</th>
+     {% endfor %}
+     </tr>
+     </thead>
+
+    <thead>
+    {% for id in dates %}
+     <tr class='success'>
+      {% for i in id %}
+        <td> {{ i }}</td>
+         {% endfor %}
+      </tr>
+      {% endfor %}  
+        </thead>
+  </table>
+
+
+  

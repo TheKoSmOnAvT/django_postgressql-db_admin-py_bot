@@ -79,9 +79,7 @@ def table_frombd(request): #функция для отображения спи�
 
 
 def change_data(request):
-    from urllib import parse
-    print("############")
-    print(request.GET.getlist("name"))
-    print("############")
-    data = {}
+    mas = request.GET.getlist("name")
+    print(mas[0][0])
+    data = {"datas":mas}
     return render(request, "laba1/change_data.html", data)

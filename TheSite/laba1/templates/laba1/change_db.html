@@ -45,7 +45,7 @@
             <td class = "col-md-auto" name="one" > {{ i }} </td>
             {% endfor %}
             <div class="col">   
-             <th><a method="Post" name="two" href="change_data/?name={{j}}">Изменить</a> | <a href="change_data/{{j}}">Удалить</a></th>
+             <th><a method="Post" name="two" href="change_data/?name={% for i in j %} {{ i }}{% endfor %}">Изменить</a> | <a href="change_data/{{j}}">Удалить</a></th>
              </div>
         </tr>
     {% endfor %}  

@@ -7,49 +7,50 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <title>Tables_change</title>
 </head>
-    <body>
 
-
-
-    <form action="/laba1/"   method="Post"> 
     <div class="form-group">
+    <form action="/laba1/" method="Post"> 
     {% csrf_token %}
     <label for="exampleFormControlSelect2">Список таблиц:</label>
     <p></p>
-    </div>
-    <div class="form-group">
+
     <select multiple class="form-control" id="exampleFormControlSelect2" name="select_table">
-    
         {% for i in tables %}
-        {% for j in i %}    
-        <option name="select_table">{{ j }}</option>
-        {% endfor %}    
+            {% for j in i %}    
+                <option name="select_table">{{ j }}</option>
+            {% endfor %}    
         {% endfor %}
     </select>
-    
     <p></p>
      <button type="submit" class="btn btn-dark" aria-pressed="true">OK </button>
-        </body>
-    <p></p>
+     </div>
+        </form>
+
+
     <table class="table">
     <thead class="thead-dark">
-     <tr>
-     {% for i in attrib %}
-     <th>{{ i }}</th>
-     {% endfor %}
-     </tr>
-     </thead>
+        <tr>
+            {% for i in attrib %}
+                <th>{{ i }}</th>
+            {% endfor %}
+        </tr>
+    </thead>
 
+    
+    {% csrf_token %}
     <thead>
     {% for j in selected_tb %}
-     <tr class='success'>
-      {% for i in j %}
-        <td> {{ i }}</td>
-         {% endfor %}
-      </tr>
-      {% endfor %}  
-        </thead>
-  </table>
+        <tr>
+            {% for i in j %}
+            <td class = "col-md-auto" name="one" > {{ i }} </td>
+            {% endfor %}
+            <div class="col">   
+             <th><a method="Post" name="two" href="change_data/?name={{j}}">Изменить</a> | <a href="change_data/{{j}}">Удалить</a></th>
+             </div>
+        </tr>
+    {% endfor %}  
+    </thead>
+    </table>
 
-    </form>
+
 </html> 

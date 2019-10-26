@@ -62,7 +62,7 @@ def fun_at(query):
     return mas
 
 
-def table_frombd(request): #функция для редактиврования таблицы
+def table_frombd(request): #функция для отображения списка таблиц в бд
     select_tab = request.POST.get("select_table") 
     data = {}
     q_t = "SELECT table_name FROM information_schema.tables WHERE table_schema NOT IN ('information_schema','pg_catalog');"
@@ -75,3 +75,13 @@ def table_frombd(request): #функция для редактиврования
     except Error as e:
         data["Errors"] = str(e)
     return render(request, "laba1/change_db.html", data)
+
+
+
+def change_data(request):
+    from urllib import parse
+    print("############")
+    print(request.GET.getlist("name"))
+    print("############")
+    data = {}
+    return render(request, "laba1/change_data.html", data)

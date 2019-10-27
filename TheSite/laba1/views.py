@@ -104,7 +104,7 @@ def new_data(request):
     mas = fun_at("select * from "+name) #получение атрибутов (их названия)
     query ="UPDATE "+name+" SET "
     for i in range(0,len(mas)):
-        query += mas[i]+"='"+new_data[i]+"'" 
+        query += mas[i]+"='"+new_data[i] +"'" 
         if i !=len(mas)-1:
             query +=" , "
     query+=" WHERE "
@@ -114,4 +114,19 @@ def new_data(request):
             query +=" and "
     print(query)
     sql_change(query)
-    return render(request, "laba1/query.html")
+    return table_frombd(request)
+
+def del_data(request):
+    mas = request.GET.getlist("name")
+    mas = mas[0].split()
+    name_table = mas[0] #название таблицы
+    fields = mas[1:] #старые данные
+    mas_atrib = fun_at("select * from "+name_table) #получение атрибутов (их названия)
+    query="DELETE FROM "+name_table+" WHERE "
+    for i in range(0,len(mas_atrib)):
+        query += mas_atrib[i]+"='"+fields[i]+"'" 
+        if i !=len(mas_atrib)-1:
+            query +=" and "
+    print(query)
+    sql_change(query)
+    return table_frombd(request)

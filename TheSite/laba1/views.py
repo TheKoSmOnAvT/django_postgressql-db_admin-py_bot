@@ -48,7 +48,7 @@ def func_sql(query):
        mas = str(e)
     return mas
 
-def fun_at(query):
+def fun_at(query): #attribs
     try:
         with connection.cursor() as cursor: #получаем список таблиц
             cursor.execute(query)
@@ -61,8 +61,14 @@ def fun_at(query):
        mas = str(e)
     return mas
 
+def sql_change(query): #без возврата данных
+    try:
+        with connection.cursor() as cursor: #sql 
+            cursor.execute(query)     
+    except Error as e:
+       print(str(e))
 
-def table_frombd(request): #функция для отображения списка таблиц в бд
+def table_frombd(request): #функция для отображения списка таблиц в бд и саму бд
     select_tab = request.POST.get("select_table") 
     data = {}
     q_t = "SELECT table_name FROM information_schema.tables WHERE table_schema NOT IN ('information_schema','pg_catalog');"
@@ -79,7 +85,33 @@ def table_frombd(request): #функция для отображения спи�
 
 
 
-def change_data(request):
+def change_data(request): #функция изменения выборки
     mas = request.GET.getlist("name")
-    data = {"datas":mas}
+    mas = mas[0].split()
+    name_table = mas[0]
+    fields = mas[1:]
+    data = {"fields":fields,  "name_table" : name_table}
     return render(request, "laba1/change_data.html", data)
+
+def new_data(request):
+    new_data = request.POST.getlist("changes") #методом пост поулчаем новые значения из input
+    old_data =  request.GET.getlist("new") #методом гет получаем название таблицы из старые данные в одном массиве 
+
+    old_data = old_data[0].split()
+    name = old_data[0] #название таблицы
+    old_data = old_data[1:] #старые данные
+    
+    mas = fun_at("select * from "+name) #получение атрибутов (их названия)
+    query ="UPDATE "+name+" SET "
+    for i in range(0,len(mas)):
+        query += mas[i]+"='"+new_data[i]+"'" 
+        if i !=len(mas)-1:
+            query +=" , "
+    query+=" WHERE "
+    for i in range(0,len(mas)):
+        query += mas[i]+"='"+old_data[i]+"'" 
+        if i !=len(mas)-1:
+            query +=" and "
+    print(query)
+    sql_change(query)
+    return render(request, "laba1/query.html")

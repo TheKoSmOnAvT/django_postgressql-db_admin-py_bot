@@ -14,10 +14,10 @@
 <body>
 <form name ="auth" action="test/?new={{name_table}}{% for i in fields %} {{i}}{% endfor %} " method="Post" > 
 {% csrf_token %}
-<p> Таблица: {{name_table}}</p>
-{% for i in fields %}
- <p><input value={{i}} name="changes"> </input></p>
-{% endfor %} 
+<p> Таблица: {{name_table}}</p> 
+{% for i in new_data %}
+<p><input value = {{i.1}} name="changes"> </input></p>
+{% endfor %}
 <button type = "sumbit" class="btn btn-dark" aria-pressed="true"> OK</button>
 <a type = "button" href="\laba1/"> Cancel</a>
 

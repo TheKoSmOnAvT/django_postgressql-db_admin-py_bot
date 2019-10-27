@@ -7,6 +7,18 @@
 
    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
-  <title>Query</title>
+  <title>add</title>
 </head>
-{% csrf_token %}
+
+<body>
+
+<form name ="auth" action="new/?name={{name_table}}" method="Post" > 
+  {% csrf_token %}
+  <p> Таблица: {{name_table}}</p>
+  {% for i in mas_atrib %}
+    <p><input placeholder={{i}} name="changes"> </input></p>
+  {% endfor %} 
+  <button type = "sumbit" class="btn btn-dark" aria-pressed="true"> OK</button>
+  <a type = "button" href="\laba1/"> Cancel</a>
+
+</form>

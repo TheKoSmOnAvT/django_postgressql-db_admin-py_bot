@@ -90,7 +90,15 @@ def change_data(request): #функция изменения выборки
     mas = mas[0].split()
     name_table = mas[0]
     fields = mas[1:]
-    data = {"fields":fields,  "name_table" : name_table}
+    mas_atrib = fun_at("select * from "+name_table)
+
+    new_data=[]
+    for i in range(0,len(mas_atrib)) :
+            new_data.append([mas_atrib[i], None])
+    for i in range(0,len(fields)) :
+            new_data[i][1]= fields[i]
+
+    data = {"fields":fields,  "name_table" : name_table,  "new_data":new_data}
     return render(request, "laba1/change_data.html", data)
 
 def new_data(request):
@@ -108,9 +116,9 @@ def new_data(request):
         if i !=len(mas)-1:
             query +=" , "
     query+=" WHERE "
-    for i in range(0,len(mas)):
+    for i in range(0,len(old_data)):
         query += mas[i]+"='"+old_data[i]+"'" 
-        if i !=len(mas)-1:
+        if i !=len(old_data)-1:
             query +=" and "
     print(query)
     sql_change(query)
@@ -123,10 +131,35 @@ def del_data(request):
     fields = mas[1:] #старые данные
     mas_atrib = fun_at("select * from "+name_table) #получение атрибутов (их названия)
     query="DELETE FROM "+name_table+" WHERE "
-    for i in range(0,len(mas_atrib)):
+    for i in range(0,len(fields)):
         query += mas_atrib[i]+"='"+fields[i]+"'" 
-        if i !=len(mas_atrib)-1:
+        if i !=len(fields)-1:
             query +=" and "
     print(query)
-    sql_change(query)
+    sql_change(query) #sql
     return table_frombd(request)
+
+def add_data_name(request): #заполнение формы под добавление данных
+    mas = request.GET.getlist("name")
+    mas = mas[0].split()
+    name_table = mas[0] #название таблицы
+    mas_atrib = fun_at("select * from "+name_table) 
+    data = {"name_table" : name_table, "mas_atrib" : mas_atrib}
+    return render(request, "laba1/add_data.html", data)
+
+def add_data(request): #выполнение добавления 
+    new_data = request.POST.getlist("changes") #методом пост поулчаем новые значения из input
+    
+    mas = request.GET.getlist("name")
+    mas = mas[0].split()
+    name_table = mas[0] #название таблицы
+    query = "INSERT INTO "+name_table+" VALUES ( "
+
+    for i in range(0,len(new_data)):
+        query +=" '"+new_data[i]+"' " 
+        if i !=len(new_data)-1:
+            query +=" , "
+    query +=")"
+    sql_change(query) #sql
+    return table_frombd(request)
+

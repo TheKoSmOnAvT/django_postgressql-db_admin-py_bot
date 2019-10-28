@@ -120,7 +120,7 @@ def new_data(request):
         query += mas[i]+"='"+old_data[i]+"'" 
         if i !=len(old_data)-1:
             query +=" and "
-    print(query)
+    printquer(query)
     sql_change(query)
     return table_frombd(request)
 
@@ -135,7 +135,7 @@ def del_data(request):
         query += mas_atrib[i]+"='"+fields[i]+"'" 
         if i !=len(fields)-1:
             query +=" and "
-    print(query)
+    printquer(query)
     sql_change(query) #sql
     return table_frombd(request)
 
@@ -160,6 +160,29 @@ def add_data(request): #выполнение добавления
         if i !=len(new_data)-1:
             query +=" , "
     query +=")"
+    printquer(query)
     sql_change(query) #sql
     return table_frombd(request)
 
+def truncate_table(request):
+    mas = request.GET.getlist("name")
+    mas = mas[0].split()
+    name_table = mas[0] #название таблицы
+    query="TRUNCATE TABLE " + name_table
+    printquer(query)
+    sql_change(query)
+    return table_frombd(request)
+
+def delete_table(request):
+    mas = request.GET.getlist("name")
+    mas = mas[0].split()
+    name_table = mas[0] #название таблицы
+    query = "DROP TABLE "+ name_table
+    printquer(query)
+    sql_change(query)
+    return table_frombd(request)
+
+def printquer(query): ##принт в консоль
+    print("##query##")
+    print(query)
+    print("#######")

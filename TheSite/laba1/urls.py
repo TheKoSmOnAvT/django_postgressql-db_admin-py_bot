@@ -13,4 +13,6 @@ urlpatterns = [
 	re_path(r'change_data/$', views.change_data),
 	re_path(r'add_data/new/$', views.add_data),
 	re_path(r'add_data/$', views.add_data_name),
+	re_path(r'truncate/$',views.truncate_table), 
+	re_path(r'delete_table/$',views.delete_table),
 ]

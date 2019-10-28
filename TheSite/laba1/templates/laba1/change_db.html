@@ -6,12 +6,41 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <title>Tables_change</title>
-</head>
+    <style>
+  .upper {
+    top: 10%;
+    background: gray;
+    padding: 10px;
+    margin: 10px;
+    margin-right:10pt;
+  }
+    .bodys{
+        background: gray;
+        
+    }
+    .names_tab{
+        margin-left:10pt;
+        color:white;
+        font-weight: 450;
+        font-size: 16pt;
+    }
+    .col-1{
+        margin-left:10pt;   
+    }
 
+    .tables_pr{
+        margin-left:10pt;
+        margin-right:10pt;
+    }
+
+  </style>
+</head>
+<body class="   ">
+    <div class="upper">
     <div class="form-group">
     <form action="/laba1/" method="Post"> 
     {% csrf_token %}
-    <label for="exampleFormControlSelect2">Список таблиц:</label>
+    <label class="names_tab" >Список таблиц:</label>
     <p></p>
     <select multiple class="form-control" id="exampleFormControlSelect2" name="select_table">
         {% for i in tables %}
@@ -20,57 +49,70 @@
             {% endfor %}    
         {% endfor %}
     </select>
-    <p></p>
     </div>
 
 
     
+<div class="navbar ">
 <div class="row ">
-    <div class="col-1">
+    <div class="col-2">
         <button type="submit" class="btn btn-dark" aria-pressed="true">OK </button>
         </form>
     </div>
-    <div class="col-1">
+    <div class="col-3">
         <form action="\">
-            <button  type="submit" class="btn btn-dark" aria-pressed="true">Назад</button>
+            <p><button  type="submit" class="btn btn-dark" aria-pressed="true">Назад</button></p>
         </form>
     </div>
+    <div class="col-10" >
+        <form action="create_tables/">
+            <p><button  type="submit" class="btn btn-dark " aria-pressed="true">Создать таблицу</button></p>
+        </form>
+    </div>
+</div>  
 </div>
-    <p></p>
-<div class="row ">
-    <div class="col-2">
+    </div>
       {% if attrib %}
+<div class = "navbar">
+<div class="row ">
+    <div class="col-3">
         <form action="truncate/?name={{name_table}}"  method="POST">
         {% csrf_token %}
-            <button  type="submit" class="btn btn-dark" aria-pressed="true">Очистить таблицу </button>
+            <button  type="submit" class="btn btn-secondary" aria-pressed="true">Очистить таблицу </button>
         </form>
       {% endif %}
     </div>
 
-    <div class="col-2">
+    <div class="col-3">
       {% if attrib %}
         <form action="delete_table/?name={{name_table}}"  method="POST">
         {% csrf_token %}
-            <button  type="submit" class="btn btn-dark" aria-pressed="true">Удалить таблицу </button>
+            <button  type="submit" class="btn btn-secondary" aria-pressed="true">Удалить таблицу </button>
         </form>
       {% endif %}
     </div>
-    
-    <div class="col-2">
+
+    <div class="col-3">
       {% if attrib %}
         <form action="add_data/?name={{name_table}}"  method="POST">
         {% csrf_token %}
-            <button  type="submit" class="btn btn-dark" aria-pressed="true">Добавить данные </button>
+            <p><button  type="submit" class="btn btn-secondary" aria-pressed="true">Добавить данные </button></p>
         </form>
       {% endif %}
     </div>
+<div class="col-3">
+      {% if attrib %}
+        <form action="change_table/?name={{name_table}}"  method="POST">
+        {% csrf_token %}
+            <p><button  type="submit" class="btn btn-secondary" aria-pressed="true">Изменить таблицу</button></p>
+        </form>
+      {% endif %}
+    </div>
+
 </div>
+    </div>  
 
-    <p></p>
-       
- 
-
-
+ <div class="tables_pr">   
     <table class="table">
     <thead class="thead-dark">
         <tr>
@@ -95,6 +137,6 @@
     {% endfor %}  
     </thead>
     </table>
-
-
+</div>
+</body>
 </html> 

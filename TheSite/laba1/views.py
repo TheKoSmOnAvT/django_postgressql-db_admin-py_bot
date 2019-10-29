@@ -84,6 +84,13 @@ def table_frombd(request): #функция для отображения спи�
     return render(request, "laba1/change_db.html", data)
 
 
+def check_none(mas):
+    for i in range(0,len(mas)):
+        for j in range(0,len(mas[i])):
+            if mas[i][j] == "None":
+                mas[i][j] = "#empty#"
+    return mas
+
 
 def change_data(request): #функция изменения выборки
     mas = request.GET.getlist("name")
@@ -97,9 +104,21 @@ def change_data(request): #функция изменения выборки
             new_data.append([mas_atrib[i], None])
     for i in range(0,len(fields)) :
             new_data[i][1]= fields[i]
-
+    check_none(new_data)
     data = {"fields":fields,  "name_table" : name_table,  "new_data":new_data}
     return render(request, "laba1/change_data.html", data)
+
+def chaeck_null(mas, i):
+    print(str(mas[i]) )
+    if str(mas[i]) == "None" or str(mas[i]) == "#empty#":
+        return False
+    return True
+
+def set_null(mas, i):
+    print(str(mas[i]) )
+    if str(mas[i]) == "#empty#":
+        return False
+    return True
 
 def new_data(request):
     new_data = request.POST.getlist("changes") #методом пост поулчаем новые значения из input
@@ -112,14 +131,21 @@ def new_data(request):
     mas = fun_at("select * from "+name) #получение атрибутов (их названия)
     query ="UPDATE "+name+" SET "
     for i in range(0,len(mas)):
-        query += mas[i]+"='"+new_data[i] +"'" 
-        if i !=len(mas)-1:
-            query +=" , "
+        if set_null(new_data, i):
+            query +=" "+ mas[i]+"='"+new_data[i] +"'" 
+            if i !=len(mas)-1:
+                query +=" ,"
+    if query[len(query)-1]==',':
+        query = query[0:len(query)-1]
     query+=" WHERE "
+
     for i in range(0,len(old_data)):
-        query += mas[i]+"='"+old_data[i]+"'" 
-        if i !=len(old_data)-1:
-            query +=" and "
+        if chaeck_null(old_data,i):
+            query += " "+ mas[i]+"='"+old_data[i]+"'" 
+            if i !=len(old_data)-1:
+                query +=" and"
+    if query[len(query)-1]=='d':
+        query = query[0:len(query)-3]
     printquer(query)
     sql_change(query)
     return table_frombd(request)
@@ -189,6 +215,7 @@ def printquer(query): ##принт в консоль
 
 def crt_html(request):
     return render(request, "laba1/create_table.html")
+
 
 def add_column(request):
     mas = request.GET.getlist("name")

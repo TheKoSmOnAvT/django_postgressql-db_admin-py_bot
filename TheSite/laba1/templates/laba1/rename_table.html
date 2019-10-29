@@ -14,7 +14,7 @@
     {% csrf_token %}
     <div class = "main">
     <p class="names_tab" > Таблица: {{name_table}}</p> 
-    <p><input  value ="{{ name_table }}"  name="changes"> </input></p>
+    <p><input name="changes"  value ="{{ name_table }}"  > </input></p>
     <button type = "sumbit" class="btn btn-dark" aria-pressed="true"> OK</button>
     </div>
     </form>

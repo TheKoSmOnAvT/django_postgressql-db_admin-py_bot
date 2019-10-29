@@ -21,6 +21,7 @@ urlpatterns = [
 	re_path(r'del_atrib/$',views.del_atrib),
 	re_path(r'change_atrib/new/$',views.change_attrib),
 	re_path(r'change_atrib/$',views.to_change_attrib),
-
+	re_path(r'rename_table/new/$',views.rename_table),
+	re_path(r'rename_table/$',views.to_rename_table),
 ]
 

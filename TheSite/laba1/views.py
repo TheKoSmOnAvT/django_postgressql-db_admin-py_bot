@@ -251,3 +251,20 @@ def change_attrib(request):
     sql_change(query_name)
     return table_frombd(request)
 
+def to_rename_table(request):
+    mas = request.GET.getlist("name")
+    mas = mas[0].split()
+    name_table = mas[0] #название таблицы
+    data = {"name_table":name_table}
+    return render(request, "laba1/rename_table.html", data)
+
+def rename_table(request):
+    mas = request.GET.getlist("name")
+    mas = mas[0].split()
+    old_name_table = mas[0] #название таблицы
+    new_data = request.POST.getlist("changes") #методом пост поулчаем новые значения из input
+    new_name_table = new_data[0]
+    query = "ALTER TABLE "+ old_name_table +" RENAME TO "+new_name_table
+    printquer(query)
+    sql_change(query)
+    return table_frombd(request)

@@ -102,6 +102,15 @@
     </div>
 
     <div class="col-3">
+      {% if name_table %}
+        <form action="rename_table/?name={{name_table}}"  method="POST">
+        {% csrf_token %}
+            <button  type="submit" class="btn btn-secondary" aria-pressed="true">Переименовать    таблицу </button>
+        </form>
+      {% endif %}
+    </div>
+
+    <div class="col-3">
       {% if attrib %}
         <form action="add_data/?name={{name_table}}"  method="POST">
         {% csrf_token %}
@@ -109,7 +118,7 @@
         </form>
       {% endif %}
     </div>
-<div class="col-3">
+    <div class="col-3">
       {% if attrib %}
         <form action="change_table/?name={{name_table}}"  method="POST">
         {% csrf_token %}
@@ -119,7 +128,7 @@
     </div>
 
 </div>
-    </div>  
+</div>  
 
  <div class="tables_pr">   
     <table class="table">

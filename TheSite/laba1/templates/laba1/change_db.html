@@ -32,6 +32,15 @@
         margin-left:10pt;
         margin-right:10pt;
     }
+    .child {
+    background: #eee;
+    border: 2px solid #ccc;
+    padding: 6px;
+    float: left;
+    width: 140pt;
+    margin-right: 1%;
+    margin-bottom: 5pt;
+    }
 
   </style>
 </head>
@@ -84,10 +93,10 @@
     </div>
 
     <div class="col-3">
-      {% if attrib %}
+      {% if name_table %}
         <form action="delete_table/?name={{name_table}}"  method="POST">
         {% csrf_token %}
-            <button  type="submit" class="btn btn-secondary" aria-pressed="true">Удалить таблицу </button>
+            <button  type="submit" class="btn btn-secondary" aria-pressed="true">Удалить    таблицу </button>
         </form>
       {% endif %}
     </div>
@@ -104,7 +113,7 @@
       {% if attrib %}
         <form action="change_table/?name={{name_table}}"  method="POST">
         {% csrf_token %}
-            <p><button  type="submit" class="btn btn-secondary" aria-pressed="true">Изменить таблицу</button></p>
+            <p><button  type="submit" class="btn btn-secondary" aria-pressed="true">Добавить столбец</button></p>
         </form>
       {% endif %}
     </div>
@@ -123,6 +132,27 @@
     </thead>
 
     
+
+{% if attrib %}   
+{% for i in attrib %}
+
+<div>
+<div class="child">
+        <form action="del_atrib/?name={{name_table}} {{i}}"  method="POST">
+        {% csrf_token %}
+            <p><button  type="submit" class="btn btn-secondary" aria-pressed="true">Удалить {{i}} </button></p>
+        </form>
+        <form action="change_atrib/?name={{name_table}} {{i}}"  method="POST">
+        {% csrf_token %}
+            <p><button  type="submit" class="btn btn-secondary" aria-pressed="true">Изменить {{i}}</button></p>
+        </form>
+
+</div>
+</div>
+{% endfor %}
+{% endif %}
+
+
     {% csrf_token %}
     <thead>
     {% for j in selected_tb %}

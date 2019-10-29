@@ -186,3 +186,68 @@ def printquer(query): ##принт в консоль
     print("##query##")
     print(query)
     print("#######")
+
+def crt_html(request):
+    return render(request, "laba1/create_table.html")
+
+def add_column(request):
+    mas = request.GET.getlist("name")
+    mas = mas[0].split()
+    name_table = mas[0] #название таблицы
+    mas_at =  fun_at("select * from "+name_table)
+    data = {"name_table": name_table,"mas_at":mas_at}
+    return  render(request, "laba1/create_attrib.html", data)
+
+def add_column_query(request):
+    mas = request.GET.getlist("name")
+    mas = mas[0].split()
+    name_table = mas[0] #название таблицы
+    new_data = request.POST.getlist("changes") #методом пост поулчаем новые значения из input
+    query="ALTER TABLE "+name_table+" ADD "+ new_data[0] + ' '+ new_data[1]
+    printquer(query)
+    sql_change(query)
+    return table_frombd(request)
+
+
+def del_atrib(request):
+    mas = request.GET.getlist("name")
+    mas = mas[0].split()
+    name_table = mas[0] #название таблицы
+    name_atrib = mas[1] #название атрибута
+    query="ALTER TABLE " + name_table +" DROP COLUMN "+ name_atrib
+    printquer(query)
+    sql_change(query)
+    return table_frombd(request)
+
+def to_change_attrib(request):
+    mas = request.GET.getlist("name")
+    mas = mas[0].split()
+    name_table = mas[0] #название таблицы
+    name_atrib = mas[1] #название атрибута
+    type_attrib = str(func_sql("SELECT pg_typeof( "+ name_atrib +" ) from "+ name_table +";"))
+    type_attrib = type_attrib.replace("(", "")
+    type_attrib = type_attrib.replace(")", "")
+    type_attrib = type_attrib.replace(",", "")
+    type_attrib = type_attrib.replace("'", "")
+    type_attrib = type_attrib.replace("[", "")
+    type_attrib = type_attrib.replace("]", "")
+    printquer(type_attrib)
+    data = {"name_table":name_table,"name_atrib":name_atrib,"type_attrib":type_attrib}
+    return render(request, "laba1/change_attrib.html", data)
+
+def change_attrib(request):
+    mas = request.GET.getlist("name")
+    mas = mas[0].split()
+    name_table = mas[0] #название таблицы
+    old_name_atrib = mas[1] #название атрибута
+    new_data = request.POST.getlist("changes") #методом пост поулчаем новые значения из input
+    new_name_atrib = new_data[0]
+    new_type_atrib = new_data[1]
+    query_name="ALTER TABLE "+ name_table + " RENAME "+ old_name_atrib +" TO "+new_name_atrib
+    query_type="ALTER TABLE "+ name_table + " ALTER COLUMN "+ old_name_atrib +" TYPE "+ new_type_atrib
+    printquer(query_name)
+    printquer(query_type)
+    sql_change(query_type)
+    sql_change(query_name)
+    return table_frombd(request)
+

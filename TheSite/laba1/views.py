@@ -213,9 +213,6 @@ def printquer(query): ##принт в консоль
     print(query)
     print("#######")
 
-def crt_html(request):
-    return render(request, "laba1/create_table.html")
-
 
 def add_column(request):
     mas = request.GET.getlist("name")
@@ -292,6 +289,41 @@ def rename_table(request):
     new_data = request.POST.getlist("changes") #методом пост поулчаем новые значения из input
     new_name_table = new_data[0]
     query = "ALTER TABLE "+ old_name_table +" RENAME TO "+new_name_table
+    printquer(query)
+    sql_change(query)
+    return table_frombd(request)
+
+
+def crt_html(request):
+    return render(request, "laba1/create_table.html")
+
+def st(mas):
+    if len(mas[0])<1 or len(mas[1])<1 :
+        return False
+    return True
+
+
+def create_table(request):
+    new_data1 = request.POST.getlist("changes1") #методом пост поулчаем новые значения из input
+    new_data2 = request.POST.getlist("changes2")
+    new_data3 = request.POST.getlist("changes3")
+    new_data4 = request.POST.getlist("changes4")
+    name_table = request.POST.getlist("name")
+    printquer(new_data)
+    printquer(name_table)
+    query = "CREATE TABLE "+ name_table[0] +" ( "
+    if st(new_data1) :
+        query+= " "+ new_data1[0]+ " " +new_data1[1] +","
+    if st(new_data2) :
+        query+= " "+ new_data2[0]+ " " +new_data2[1] +","
+    if st(new_data3) :
+        query+= " "+ new_data3[0]+ " " +new_data3[1] +","
+    if st(new_data4) :
+        query+= " "+ new_data4[0]+ " " +new_data4[1] +","
+    if query[len(query)-1]==",":
+        query=query[0:len(query)-1]
+    
+    query+= ")"
     printquer(query)
     sql_change(query)
     return table_frombd(request)

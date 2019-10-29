@@ -9,6 +9,39 @@
 </head>
 <body>
 
+<div class="jumbotron">
+    <form name ="auth" action="new/" method="Post" > 
+    {% csrf_token %}
+    <div class = "main">
+    <p class="names_tab" > Создание таблицы: {{name_table}}</p> 
+    <p><input name="name"  placeholder = "Имя таблицы"  > </input></p>
+    <div class="row">
+        <p><input name="changes1"  placeholder = "Имя атрибута"  > </input></p>
+        <p> -    </p>
+        <p><input name="changes1"  placeholder = "Тип атрибута"  > </input></p>
+    </div>
+    <div class="row">
+        <p><input name="changes2"  placeholder = "Имя атрибута"  > </input></p>
+        <p> -    </p>
+        <p><input name="changes2"  placeholder = "Тип атрибута"  > </input></p>
+    </div>
+    <div class="row">
+        <p><input name="changes3"  placeholder = "Имя атрибута"  > </input></p>
+        <p> -    </p>
+        <p><input name="changes3"  placeholder = "Тип атрибута"  > </input></p>
+    </div>
+    <div class="row">
+        <p><input name="changes4"  placeholder = "Имя атрибута"  > </input></p>
+        <p> -    </p>
+        <p><input name="changes4"  placeholder = "Тип атрибута"  > </input></p>
+    </div>
+
+    
+    <button type = "sumbit" class="btn btn-dark" aria-pressed="true"> OK</button>
+    </div>
+    </form>
+</div>
+
 
 
 </body>

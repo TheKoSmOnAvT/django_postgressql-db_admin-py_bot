@@ -30,6 +30,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'triger',
     'TheFirst',
     'laba1',
     'bootstrap3',

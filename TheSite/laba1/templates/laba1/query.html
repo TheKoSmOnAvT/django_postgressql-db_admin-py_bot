@@ -9,16 +9,22 @@
    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
   <title>Query</title>
-  
+  <style>
+  .qque{
+    width:800pt;
+  }
+  </style>
+
+
 <div class="jumbotron">
 
 <form action="/laba1/query/bd" class="form-inline" method="Post"> 
       <div class="">
           {% csrf_token %}
-          <label for="exampleFormControlSelect2">  Your query: </label>
+          
           <p></p>
         <div class="form-group mx-sm-3 mb-2">
-          <input  id="qq"  type="text" name="query"  >
+          <p>Your query: <input class="qque"  id="qq"  type="text" name="query"  > </p>
           <p></p>
         </div >
           <p></p>

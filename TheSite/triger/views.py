@@ -1,10 +1,93 @@
 from django.shortcuts import render
-from .forms import UserForm
+#from .forms import UserForm
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 from django.views.generic.list import ListView
 from django.db import connection, Error
 import traceback
+
+def del_trig(request):
+
+    create_trig_html(request)
+
+def off_trig(request):
+
+    create_trig_html(request)
+
+def on_trig(request):
+
+    create_trig_html(request)
+
+def create_trig_html(request):
+    q_t = "SELECT table_name FROM information_schema.tables WHERE table_schema NOT IN ('information_schema','pg_catalog');"
+    try:
+        data = { "tables" : func_sql(q_t)}      
+    except Error as e:
+        data["Errors"] = str(e)
+    data["times"] = ["BEFORE","AFTER"]
+    data["event"] = ["INSERT","UPDATE", "DELETE"]
+    funcs_qt ="SELECT routine_name FROM information_schema.routines WHERE routine_type='FUNCTION' AND specific_schema='public';"
+    funcs = func_sql(funcs_qt)
+    data["funcs"] = funcs
+    return render(request, "htmls/create_triger.html", data)
+
+def create_trig_in_bd(request):
+    select_table = request.POST.get("select_table") 
+    name = request.POST.get("name") 
+    select_time = request.POST.get("select_time") 
+    select_event = request.POST.get("select_event") 
+    select_funcs = request.POST.get("select_funcs") 
+    sql_opr = request.POST.get("sql_opr")
+    q_t = "CREATE TRIGGER "+ name +" "+select_time + " " + select_event + " ON " + select_table + " FOR EACH ROW EXECUTE PROCEDURE  " + select_funcs + " ();"
+    printquer(q_t)
+    sql_change(q_t)
+    create_trig_html(request)
+
+
+def print_trigers(request):
+    select_triger= request.POST.get("select_triger") 
+    data = {}
+    q_t = "SELECT trigger_name FROM information_schema.triggers"
+    try:
+        data = { "trigers" : func_sql(q_t)}      
+        if select_triger!=None:
+            data["names"]=select_triger
+            q_t_1= "SELECT * FROM information_schema.triggers where trigger_name like '"+select_triger + "' "
+            data["selected_tb"] = func_sql(q_t_1)
+            data["attrib"] = fun_at(q_t_1)
+            printquer(q_t_1)
+    except Error as e:
+        data["Errors"] = str(e)
+    return render(request, "htmls/change_trigers.html", data)
+
+def func_sql(query):
+    try:
+        with connection.cursor() as cursor: #получаем список таблиц
+            cursor.execute(query)
+            try:
+                mas = cursor.fetchall() #берем массив данных (результаты запроса)
+            except Error as e:
+                mas = str(e)
+    except Error as e:
+       mas = str(e)
+    return mas
+
+
+def printquer(query): ##принт в консоль
+    print("##query##")
+    print(query)
+    print("#######")
+
+def sql_change(query): #без возврата данных
+    try:
+        with connection.cursor() as cursor: #sql 
+            cursor.execute(query)     
+    except Error as e:
+       print(str(e))
+
+
+
+#########
 
 
 def query(request):
@@ -36,17 +119,6 @@ def bd(request):
 
 
 
-def func_sql(query):
-    try:
-        with connection.cursor() as cursor: #получаем список таблиц
-            cursor.execute(query)
-            try:
-                mas = cursor.fetchall() #берем массив данных (результаты запроса)
-            except Error as e:
-                mas = str(e)
-    except Error as e:
-       mas = str(e)
-    return mas
 
 def fun_at(query): #attribs
     try:
@@ -61,12 +133,6 @@ def fun_at(query): #attribs
        mas = str(e)
     return mas
 
-def sql_change(query): #без возврата данных
-    try:
-        with connection.cursor() as cursor: #sql 
-            cursor.execute(query)     
-    except Error as e:
-       print(str(e))
 
 def table_frombd(request): #функция для отображения списка таблиц в бд и саму бд
     select_tab = request.POST.get("select_table") 
@@ -157,18 +223,10 @@ def del_data(request):
     fields = mas[1:] #старые данные
     mas_atrib = fun_at("select * from "+name_table) #получение атрибутов (их названия)
     query="DELETE FROM "+name_table+" WHERE "
-    printquer(fields)
-    cnt = len(mas_atrib)
-    if len(mas_atrib) < len(fields):
-        cnt-=1
-    try:
-        for i in range(0,cnt):
-            query += mas_atrib[i]+"='"+fields[i]+"'" 
-            if i !=cnt-1 :
-                query +=" and "
-    except Error as e:
-        g=1
-
+    for i in range(0,len(fields)):
+        query += mas_atrib[i]+"='"+fields[i]+"'" 
+        if i !=len(fields)-1:
+            query +=" and "
     printquer(query)
     sql_change(query) #sql
     return table_frombd(request)
@@ -190,10 +248,9 @@ def add_data(request): #выполнение добавления
     query = "INSERT INTO "+name_table+" VALUES ( "
 
     for i in range(0,len(new_data)):
-        if new_data[i]!='':
-            query +=" '"+new_data[i]+"', " 
-    if query[len(query)-2]==",":
-        query =query[0:len(query)-2]
+        query +=" '"+new_data[i]+"' " 
+        if i !=len(new_data)-1:
+            query +=" , "
     query +=")"
     printquer(query)
     sql_change(query) #sql
@@ -216,11 +273,6 @@ def delete_table(request):
     printquer(query)
     sql_change(query)
     return table_frombd(request)
-
-def printquer(query): ##принт в консоль
-    print("##query##")
-    print(query)
-    print("#######")
 
 
 def add_column(request):

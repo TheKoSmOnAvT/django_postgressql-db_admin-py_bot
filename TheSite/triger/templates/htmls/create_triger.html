@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+  <title>add</title>
+  <style>
+  .opr{
+     width: 500pt;
+     height: 30pt;
+  }
+  .names
+  {
+    width: 500pt;
+  }
+  </style>
+</head>
+
+<body>
+  <p> Создание тригера</p>
+<form name ="auth" action="new/" method="Post" > 
+{% csrf_token %}
+  <div>
+   <p><input  class ="names" name="name"  placeholder = "Имя тригера"  > </input></p>
+    <p> Таблица:
+      <select name="select_table">
+      {% for i in tables %}
+        {% for j in i %}    
+         <option name="select_table">{{ j }}</option>
+        {% endfor %} 
+      {% endfor %} 
+      </select>
+    </p>
+
+    <p> Время:
+      <select name="select_time" >
+      {% for i in times %}   
+         <option name="select_time">{{ i }}</option>
+      {% endfor %} 
+      </select>
+    </p>
+    <p> Событие:
+      <select name="select_event">
+      {% for i in event %}   
+         <option name="select_event">{{ i }}</option>
+      {% endfor %} 
+      </select>
+    </p>
+
+    <p>
+       вызов функции: <select name="select_funcs">
+      {% for i in funcs %}   
+        {% for j in i %}   
+         <option name="select_funcs">{{ j }}</option>
+        {% endfor %} 
+       {% endfor %} 
+      </select>
+    </p>
+
+  </div>
+
+  <button type = "sumbit" class="btn btn-dark" aria-pressed="true"> Создать </button>
+</form>

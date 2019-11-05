@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <title>Tables_change</title>
+    <style>
+  .upper {
+    top: 10%;
+    background: gray;
+    padding: 10px;
+    margin: 10px;
+    margin-right:10pt;
+    width:100%;
+  }
+    .bodys{
+        background: gray;
+        
+    }
+    .names_tab{
+        margin-left:10pt;
+        color:white;
+        font-weight: 450;
+        font-size: 16pt;
+    }
+    .col-1{
+        margin-left:10pt;   
+    }
+
+    .tables_pr{
+        margin-left:10pt;
+        margin-right:10pt;
+    }
+    .child {
+    background: #eee;
+    border: 2px solid #ccc;
+    padding: 6px;
+    float: left;
+    width: 140pt;
+    margin-right: 1%;
+    margin-bottom: 5pt;
+    }
+
+  </style>
+</head>
+
+    <div class="upper">
+
+    <form action="/triger/to_trig/" method="Post"> 
+    {% csrf_token %}
+    <label class="names_tab" >Список тригеров:</label>
+    <p></p>
+    <select multiple class="form-control" id="exampleFormControlSelect2" name="select_triger">
+        {% for i in trigers %}
+            {% for j in i %}    
+                <option name="select_triger">{{ j }}</option>
+            {% endfor %}    
+        {% endfor %}
+    </select>
+    </div>
+        <div class="navbar ">
+        <div class="row ">
+        <div class="col-3">
+     <button type="submit" class="btn btn-dark" aria-pressed="true">OK </button>
+        </div>
+        </div>
+        </div>
+    </form>
+
+    
+<div class="navbar ">
+<div class="row ">
+
+        <div class="col-4">
+        <form action="\?" >
+            <p><button  type="submit" class="btn btn-dark" aria-pressed="true">Назад</button></p>
+        </form>
+
+    </div>
+    <p>  </p>
+    <div class="col-4">
+        <form action="create_triger">
+            <p><button  type="submit" class="btn btn-dark " aria-pressed="true">Создать тригер</button></p>
+        </form>
+    </div>
+    <div class="col-4">
+        {% if names %}   
+        
+         <form action="/triger/to_trig/off_triger/?name={{names}}">
+            <p><button  type="submit" class="btn btn-dark " aria-pressed="true">Включить </button></p>
+        </form>
+
+          <form action="/triger/to_trig/on_triger/?name={{names}}">
+            <p><button  type="submit" class="btn btn-dark " aria-pressed="true">Выключить </button></p>
+        </form>
+
+          <form action="/triger/to_trig/del_triger/?name={{names}}">
+            <p><button  type="submit" class="btn btn-dark " aria-pressed="true">Удалить </button></p>
+        </form>
+   
+        {% endif %}
+    </div>
+</div>  
+</div>
+
+
+ <div class="tables_pr">   
+    <table class="table">
+    <thead class="thead-dark">
+        <tr>
+            {% for i in attrib %}
+                <th>{{ i }}</th>
+            {% endfor %}
+        </tr>
+    </thead>
+
+    
+
+{% if attrib %}   
+
+
+
+
+    {% csrf_token %}
+    <thead>
+    {% for j in selected_tb %}
+        <tr>
+            {% for i in j %}
+            <td class = "col-md-auto" name="one" > {{ i }} </td>
+            {% endfor %}
+
+        </tr>
+    {% endfor %}  
+    </thead>
+    </table>
+    {% endif %}
+</div>
+</body>
+</html> 

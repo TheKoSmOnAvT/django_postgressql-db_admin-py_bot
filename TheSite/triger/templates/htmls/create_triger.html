@@ -17,11 +17,27 @@
   {
     width: 500pt;
   }
+  .form-group
+  {
+    top: 10%;
+    background: gray;
+    padding: 10px;
+    margin: 10px;
+  }
+  p{
+    color:white;
+    Font-Size:12pt;
+  }
+  body{
+     background: #6E6E51;
+  }
   </style>
 </head>
 
 <body>
-  <p> Создание тригера</p>
+ <div class="form-group">
+
+<p> Создание тригера</p>
 <form name ="auth" action="new/" method="Post" > 
 {% csrf_token %}
   <div>
@@ -65,3 +81,5 @@
 
   <button type = "sumbit" class="btn btn-dark" aria-pressed="true"> Создать </button>
 </form>
+</div>
+</body>

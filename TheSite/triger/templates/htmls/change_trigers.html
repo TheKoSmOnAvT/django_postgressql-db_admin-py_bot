@@ -88,15 +88,18 @@
     <div class="col-4">
         {% if names %}   
         
-         <form action="/triger/to_trig/off_triger/?name={{names}}">
+         <form name ="auth" action="/triger/to_trig/off_triger/?name={{names}}" method="Post" >
+         {% csrf_token %}
+            <p><button  type="submit" class="btn btn-dark " aria-pressed="true"> Выключить</button></p>
+        </form>
+
+          <form name ="auth" action="/triger/to_trig/on_triger/?name={{names}}" method="Post" >
+          {% csrf_token %}
             <p><button  type="submit" class="btn btn-dark " aria-pressed="true">Включить </button></p>
         </form>
 
-          <form action="/triger/to_trig/on_triger/?name={{names}}">
-            <p><button  type="submit" class="btn btn-dark " aria-pressed="true">Выключить </button></p>
-        </form>
-
-          <form action="/triger/to_trig/del_triger/?name={{names}}">
+          <form name ="auth" action="/triger/to_trig/del_triger/?name={{names}}" method="Post" >
+          {% csrf_token %}
             <p><button  type="submit" class="btn btn-dark " aria-pressed="true">Удалить </button></p>
         </form>
    

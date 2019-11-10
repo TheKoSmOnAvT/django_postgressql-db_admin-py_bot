@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+  <title>add</title>
+  <style>
+  .opr{
+     width: 500pt;
+     height: 30pt;
+  }
+  .names
+  {
+    width: 500pt;
+  }
+  .form-group
+  {
+    top: 10%;
+    background: gray;
+    padding: 10px;
+    margin: 10px;
+  }
+  p{
+    color:white;
+    Font-Size:12pt;
+  }
+  body{
+     background: #6E6E51;
+  }
+  </style>
+</head>
+
+<body>
+ <div class="form-group">
+
+<p> Создание представления</p>
+<form name ="auth" action="new/" method="Post" > 
+{% csrf_token %}
+  <div>
+   <p><input  class ="names" name="name"  placeholder = "Имя представления"  > </input></p>
+   <p> 
+      <input type="checkbox" name="select_rep" value="OK"> OR REPLACE<Br> 
+    </p>
+    <p> Алгоритм:
+      <select name="select_alg">
+      {% for i in alg %}   
+         <option name="select_alg">{{ i }}</option>
+      {% endfor %} 
+      </select>
+    </p>
+
+    <p>
+       AS: 
+    </p>
+  <textarea rows="10" cols="45" name="select_query"></textarea>
+
+  <p> with options:
+      <select name="select_options">
+      {% for i in options %}   
+         <option name="select_options">{{ i }}</option>
+      {% endfor %} 
+      </select>
+    </p>
+  </div>
+
+  <button type = "sumbit" class="btn btn-dark" aria-pressed="true"> Создать </button>
+</form>
+</div>
+</body>
